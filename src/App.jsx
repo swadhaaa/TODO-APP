@@ -1,121 +1,65 @@
-import { useState } from "react";
-import { v4 } from "uuid";
+//CRUD Functionality is not implemented completely in this push will implement in next one. To manage the code and focus on task at hand I have removed some lines.
 
-function App() {
+import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid"; // We are using version 4 of UUID because dev said so, Unique identofier
+function App() { //here we are having list of todo item
   const [todos, setTodos] = useState([
-    { title: "Puppy Bunny", description: "Love and Wuv", id: v4() },
-    {
-      title: "Paari Kheli",
-      description: "BOO, COO, POO",
-      id: v4(),
-    },
-    {
-      title: "WOO WOO",
-      description: "GOM, GOL, BALLE, GOLA",
-      id: v4(),
-    },
+    { title: "Puppy Bunny", description: "Love and Wuv", id: uuidv4() },
+    { title: "Paari Kheli", description: "BOO, COO, POO", id: uuidv4() },
+    { title: "WOO WOO", description: "GOM, GOL, BALLE, GOLA", id: uuidv4() },
   ]);
-
-  const [newTitle, setNewTitle] = useState("");
+  const [newTitle, setNewTitle] = useState(""); // declaration
   const [newDescription, setNewDescription] = useState("");
-  const [updateId, setUpdateId] = useState("");
-  const [updatedTitle, setUpdatedTitle] = useState("");
-  const [updatedDescription, setUpdatedDescription] = useState("");
+  const [searchTitle, setSearchTitle] = useState(""); //state of searching the title in our input box
 
-  const addTodo = (todo) => {
-    setTodos([...todos, { ...todo, id: v4() }]);
+  const addTodo = () => {
+    if (!newTitle || !newDescription) return;
+    const newTodo = {
+      title: newTitle,
+      description: newDescription,
+      id: uuidv4(),
+    };
+    setTodos([...todos, newTodo]);
     setNewTitle("");
     setNewDescription("");
   };
-
-  const deleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+  const displayTodos = () => { //using filter and map
+    const filteredTodos = todos.filter((todo) => //based on the string of search input box todo will be filtered out here
+      todo.title.toLowerCase().includes(searchTitle.toLowerCase()), // changing the lowecase
+    );
+    return filteredTodos.map((todo) => ( //we will create the jsx element once we have the filtered todos
+      <div
+        key={todo.id} //elements of my list has id ehich is unique for rendering, without it react will not know what changes are done
+        style={{ border: "1px solid red", margin: "5px", padding: "10px" }}
+      >
+        <h2>{todo.title}</h2>
+        <p>{todo.description}</p>
+      </div>
+    ));
   };
-
-  const toggleUpdate = (id) => {
-    setUpdateId(id);
-    const todoToUpdate = todos.find((todo) => todo.id === id);
-    setUpdatedTitle(todoToUpdate.title);
-    setUpdatedDescription(todoToUpdate.description);
-  };
-
-  const updateTodo = (id, todo) => {
-    const index = todos.findIndex((todo) => todo.id === id);
-    const todosCopy = todos;
-    todosCopy.splice(index, 1, { ...todo, id: id });
-    setTodos(todosCopy);
-    // console.log(todos)
-    setUpdateId("");
-  };
-
   return (
-    <>
+    <div>
+      <input
+        type="text"
+        placeholder="Search todos"
+        value={searchTitle}
+        onChange={(e) => setSearchTitle(e.target.value)} //Input boxS
+      />
+      {displayTodos()}
       <input
         type="text"
         placeholder="Title"
         value={newTitle}
         onChange={(e) => setNewTitle(e.target.value)}
       />
-      <br />
       <input
         type="text"
         placeholder="Description"
         value={newDescription}
         onChange={(e) => setNewDescription(e.target.value)}
       />
-      <br />
-      <button
-        onClick={() =>
-          addTodo({ title: newTitle, description: newDescription })
-        }
-      >
-        Add todo
-      </button>
-
-      {todos.map((todo) => (
-        <div
-          key={todo.id}
-          style={{ border: "1px solid red", margin: "5px", padding: "10px" }}
-        >
-          {todo.id === updateId ? (
-            <>
-              <br />
-              <input
-                type="text"
-                placeholder="Updated Title"
-                value={updatedTitle}
-                onChange={(e) => setUpdatedTitle(e.target.value)}
-              />
-              <br />
-              <input
-                type="text"
-                placeholder="Updated Description"
-                value={updatedDescription}
-                onChange={(e) => setUpdatedDescription(e.target.value)}
-              />
-              <br />
-              <button
-                onClick={() =>
-                  updateTodo(todo.id, {
-                    title: updatedTitle,
-                    description: updatedDescription,
-                  })
-                }
-              >
-                Save
-              </button>
-            </>
-          ) : (
-            <>
-              <h2>{todo.title}</h2>
-              <p>{todo.description}</p>
-              <button onClick={() => toggleUpdate(todo.id)}>Update todo</button>
-              <button onClick={() => deleteTodo(todo.id)}>Delete todo</button>
-            </>
-          )}
-        </div>
-      ))}
-    </>
+      <button onClick={addTodo}>Add Todo</button>
+    </div>
   );
 }
 
