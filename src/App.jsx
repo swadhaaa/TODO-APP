@@ -1,51 +1,70 @@
-//CRUD Functionality is not implemented completely in this push will implement in next one. To manage the code and focus on task at hand I have removed some lines.
-
 import React, { useState } from "react";
-import { v4 as uuidv4 } from "uuid"; // We are using version 4 of UUID because dev said so, Unique identofier
-function App() { //here we are having list of todo item
-  const [todos, setTodos] = useState([
-    { title: "Puppy Bunny", description: "Love and Wuv", id: uuidv4() },
-    { title: "Paari Kheli", description: "BOO, COO, POO", id: uuidv4() },
-    { title: "WOO WOO", description: "GOM, GOL, BALLE, GOLA", id: uuidv4() },
-  ]);
-  const [newTitle, setNewTitle] = useState(""); // declaration
+import TodoList from './TodoList';
+
+function App() {
+  const initialTodos = [
+    { title: "Puppy Bunny", description: "Love and Wuv", id: 1 },
+    { title: "Paari Kheli", description: "BOO, COO, POO", id: 2 },
+    { title: "WOO WOO", description: "GOM, GOL, BALLE, GOLA", id: 3 },
+  ];
+  
+  const [todos, setTodos] = useState(initialTodos);
+  const [newTitle, setNewTitle] = useState("");
   const [newDescription, setNewDescription] = useState("");
-  const [searchTitle, setSearchTitle] = useState(""); //state of searching the title in our input box
+  const [searchTitle, setSearchTitle] = useState("");
+  const [nextId, setNextId] = useState(4);
 
   const addTodo = () => {
     if (!newTitle || !newDescription) return;
+    
+    const titleExists = todos.some(todo => todo.title.toLowerCase() === newTitle.toLowerCase());
+    if (titleExists) {
+      alert("A todo with the same title already exists.");
+      return;
+    }
+    
     const newTodo = {
       title: newTitle,
       description: newDescription,
-      id: uuidv4(),
+      id: nextId,
     };
     setTodos([...todos, newTodo]);
     setNewTitle("");
     setNewDescription("");
+    setNextId(nextId + 1);
   };
-  const displayTodos = () => { //using filter and map
-    const filteredTodos = todos.filter((todo) => //based on the string of search input box todo will be filtered out here
-      todo.title.toLowerCase().includes(searchTitle.toLowerCase()), // changing the lowecase
-    );
-    return filteredTodos.map((todo) => ( //we will create the jsx element once we have the filtered todos
-      <div
-        key={todo.id} //elements of my list has id ehich is unique for rendering, without it react will not know what changes are done
-        style={{ border: "1px solid red", margin: "5px", padding: "10px" }}
-      >
-        <h2>{todo.title}</h2>
-        <p>{todo.description}</p>
-      </div>
-    ));
+
+  const deleteTodo = id => {
+    setTodos(todos.filter(todo => todo.id !== id));
   };
+
+  const updateTodo = id => {
+    const todo = todos.find(todo => todo.id === id);
+    if (!todo) {
+      alert("Todo not found.");
+      return;
+    }
+
+    const newTitle = prompt("Enter new title", todo.title);
+    const newDescription = prompt("Enter new description", todo.description);
+    if (newTitle && newDescription) {
+      setTodos(todos.map(t => t.id === id ? { ...t, title: newTitle, description: newDescription } : t));
+    }
+  };
+
+  const filteredTodos = todos.filter(todo =>
+    todo.title.toLowerCase().includes(searchTitle.toLowerCase())
+  );
+
   return (
     <div>
       <input
         type="text"
         placeholder="Search todos"
         value={searchTitle}
-        onChange={(e) => setSearchTitle(e.target.value)} //Input boxS
+        onChange={(e) => setSearchTitle(e.target.value)}
       />
-      {displayTodos()}
+      <TodoList todos={filteredTodos} deleteTodo={deleteTodo} updateTodo={updateTodo} />
       <input
         type="text"
         placeholder="Title"
