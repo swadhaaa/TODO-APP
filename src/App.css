@@ -1,42 +1,63 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+.todo-app {
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh; 
+  background-color: #D8BFD8;
+  border-radius: 10px;
+  box-shadow: 10px 10px 50px #d9d9d9, -10px -10px 50px #ffffff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  margin: 5vh auto;
+}
+
+.todo-item {
+  background-color: #D8BFD8;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 10px;
+  width: 100%; 
+  box-shadow: inset 5px 5px 10px #d9d9d9, inset -5px -5px 10px #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+input[type="text"], input[type="search"], button {
+  border: none;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  width: 100%;
+}
+
+input[type="text"], input[type="search"] {
+  box-shadow: inset 8px 8px 15px #d9d9d9, inset -8px -8px 15px #ffffff;
+}
+button {
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 5px 5px 15px #d9d9d9, -5px -5px 15px #ffffff;
+  transition: background-color 0.3s ease;
+}
+button:hover {
+  background-color: #45a049;
+}
+@keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.flashing-text {
+  font-size: 20px;
+  font-weight: bold;
+  color: #4CAF50;
+  animation: flash 2s linear infinite;
+  margin-bottom: 20px;
   text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import TodoItem from './TodoItem';
+import './App.css'; // Ensure your styles are correctly imported
 
 function App() {
   const initialTodos = [
@@ -38,12 +39,14 @@ function App() {
   );
 
   return (
-    <div>
+    <div className="todo-app">
+      <div className="flashing-text">This is Swadha's Todo App!</div>
       <input
-        type="text"
+        type="search"
         placeholder="Search todos"
         value={searchTitle}
         onChange={(e) => setSearchTitle(e.target.value)}
+        className="search-input"
       />
       {filteredTodos.map(todo => (
         <TodoItem
@@ -53,8 +56,8 @@ function App() {
           updateTodo={updateTodo}
         />
       ))}
-      <input type="text" placeholder="Title" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
-      <input type="text" placeholder="Description" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} />
+      <input type="text" placeholder="Title" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} className="title-input" />
+      <input type="text" placeholder="Description" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} className="description-input" />
       <button onClick={addTodo}>Add Todo</button>
     </div>
   );
