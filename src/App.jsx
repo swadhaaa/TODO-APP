@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import TodoItem from './TodoItem';
-import './App.css'; // Ensure your styles are correctly imported
+import DateTimeDisplay from './DateTimeDisplay';
+import './App.css'; //Local CSS File I have imported not global
 
 function App() {
   const initialTodos = [
@@ -41,6 +42,7 @@ function App() {
   return (
     <div className="todo-app">
       <div className="flashing-text">This is Swadha's Todo App!</div>
+      <DateTimeDisplay />
       <input
         type="search"
         placeholder="Search todos"
