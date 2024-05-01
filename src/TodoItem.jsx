@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import translateText from './translationService'; 
 
 function TodoItem({ todo, deleteTodo, updateTodo }) {
   const [editMode, setEditMode] = useState(false);
@@ -10,8 +11,18 @@ function TodoItem({ todo, deleteTodo, updateTodo }) {
     setEditMode(false);
   };
 
+  const translateTitle = async () => {
+    const translated = await translateText(title);
+    setTitle(translated);
+  };
+
+  const translateDescription = async () => {
+    const translated = await translateText(description);
+    setDescription(translated);
+  };
+
   return (
-    <div style={{ border: "1px solid red", margin: "5px", padding: "10px" }}>
+    <div className="todo-item" style={{ border: "1px solid red", margin: "5px", padding: "10px" }}>
       {editMode ? (
         <>
           <input value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -21,10 +32,12 @@ function TodoItem({ todo, deleteTodo, updateTodo }) {
         </>
       ) : (
         <>
-          <h2>{todo.title}</h2>
-          <p>{todo.description}</p>
+          <h2>{title}</h2>
+          <p>{description}</p>
           <button onClick={() => setEditMode(true)}>Edit</button>
           <button onClick={() => deleteTodo(todo.key)}>Delete</button>
+          <button onClick={translateTitle}>Translate Title</button>
+          <button onClick={translateDescription}>Translate Description</button>
         </>
       )}
     </div>
@@ -32,4 +45,3 @@ function TodoItem({ todo, deleteTodo, updateTodo }) {
 }
 
 export default TodoItem;
-

@@ -14,17 +14,14 @@
 }
 
 .todo-item {
-  background-color: #D8BFD8;
+  background-color: #FFF0F5;
   border-radius: 10px;
   padding: 15px;
   margin-bottom: 10px;
-  flex: 1 1 auto;
-  min-height: 100px; 
-  width: 100%; 
   box-shadow: inset 5px 5px 10px #d9d9d9, inset -5px -5px 10px #ffffff;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 input[type="text"], input[type="search"], button {
@@ -32,7 +29,7 @@ input[type="text"], input[type="search"], button {
   padding: 10px;
   margin: 10px 0;
   border-radius: 8px;
-  width: 100%;
+  width: calc(100% - 20px);
   box-shadow: inset 8px 8px 15px #d9d9d9, inset -8px -8px 15px #ffffff;
 }
 
@@ -50,11 +47,6 @@ button:hover {
   background-color: #45a049;
 }
 
-@keyframes flash {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
 .flashing-text {
   font-size: 20px;
   font-weight: bold;
@@ -68,4 +60,24 @@ button:hover {
   font-size: 16px;
   color: #4CAF50;
   margin-bottom: 20px;
+}
+
+.todo-item button {
+  margin: 5px;
+  font-size: 0.85rem;
+}
+
+.todo-item input {
+  flex-grow: 1;
+  margin: 5px;
+  padding: 8px;
+}
+
+.todo-item h2, .todo-item p {
+  width: 100%; 
+}
+
+@keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
