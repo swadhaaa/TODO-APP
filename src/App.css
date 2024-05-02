@@ -24,7 +24,7 @@
   align-items: flex-start;
 }
 
-input[type="text"], input[type="search"], button {
+input[type="text"], input[type="search"], input[type="datetime-local"], button {
   border: none;
   padding: 10px;
   margin: 10px 0;
@@ -56,10 +56,22 @@ button:hover {
   text-align: center;
 }
 
+@keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 .date-time-display {
   font-size: 16px;
   color: #4CAF50;
   margin-bottom: 20px;
+}
+
+.countdown {
+  font-size: 14px;
+  font-weight: bold;
+  color: #FF4500; 
+  margin: 5px 0;
 }
 
 .todo-item button {
@@ -75,9 +87,4 @@ button:hover {
 
 .todo-item h2, .todo-item p {
   width: 100%; 
-}
-
-@keyframes flash {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
 }
